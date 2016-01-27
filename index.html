@@ -2,9 +2,14 @@
 <html>
 <head>
 <title>w3w-gsi-tiles</title>
+<script src='https://raw.githubusercontent.com/mapbox/corslite/master/corslite.js'></script>
 <script>
+// https://api.what3words.com/position?key=A5PYWQCE&position=35,135
 window.addEventListener('load', function() {
   console.log('hello.');
+  corslite('https://api.what3words.com/position?key=A5PYWQCE&position=35,135', function(err, resp) {
+    console.log(resp.responseText);
+  }, true);
 });
 </script>
 </head>
