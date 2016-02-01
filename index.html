@@ -2,17 +2,40 @@
 <html>
 <head>
 <title>w3w-gsi-tiles</title>
-<script src='https://raw.githubusercontent.com/mapbox/corslite/master/corslite.js'></script>
-<script>
-// https://api.what3words.com/position?key=A5PYWQCE&position=35,135
-window.addEventListener('load', function() {
-  console.log('hello.');
-  corslite('https://api.what3words.com/position?key=A5PYWQCE&position=35,135', function(err, resp) {
-    console.log(resp.responseText);
-  }, true);
-});
-</script>
+<meta charset='UTF-8'/>
+<!-- leaflet 1.0.0 beta 2 -->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css"/>
+<style>
+body {padding: 0; margin: 0;}
+html, body, #map {height: 100%; width: 100%;}
+.w3w {font-size: 24px;}
+</style>
 </head>
 <body>
+<div id="map"></div>
+<script src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
+<script src='js/corslite.js'></script>
+<script src='js/leaflet.CenterCross.js'></script>
+<script>
+// https://api.what3words.com/position?key=A5PYWQCE&position=35,135
+var map = L.map('map');
+L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+}).addTo(map);
+var show_words = function() {
+  var c = map.getCenter();
+  corslite('https://api.what3words.com/position?key=A5PYWQCE&position=' +
+    c.lat + ',' + c.lng, function(err, resp) {
+      L.popup({className: 'w3w'}).setLatLng(c).setContent(
+        JSON.parse(resp.responseText).words.join('-')).openOn(map);
+      //console.log(JSON.parse(resp.responseText).words);
+  }, true);
+};
+map.on('load', show_words);
+map.on('moveend', show_words);
+map.setView([35.677218614543555, 139.74784255027774], 18);
+map.addControl(L.control.centerCross({show: true, position: 'topright'}));
+
+</script>
 </body>
 </html>
