@@ -27,7 +27,7 @@ var show_words = function() {
   corslite('https://api.what3words.com/position?key=A5PYWQCE&position=' +
     c.lat + ',' + c.lng, function(err, resp) {
       L.popup({className: 'w3w'}).setLatLng(c).setContent(
-        JSON.parse(resp.responseText).words.join('-')).openOn(map);
+        JSON.parse(resp.responseText).words.join('.')).openOn(map);
       //console.log(JSON.parse(resp.responseText).words);
   }, true);
 };
