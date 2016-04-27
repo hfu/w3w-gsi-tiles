@@ -20,13 +20,16 @@ html, body, #map {height: 100%; width: 100%;}
 // https://api.what3words.com/position?key=A5PYWQCE&position=35,135
 var map = L.map('map');
 var std = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>GSI Tiles</a>"
+});
+var ort = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
+  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>GSI Tiles</a>"
 });
 var kumamoto = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/20160414kumamoto_0416dol1/{z}/{x}/{y}.png', {
-  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+  attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>GSI Tiles</a>"
 });
 std.addTo(map);
-var base_layers = {"標準地図": std, "熊本": kumamoto};
+var base_layers = {"standard map": std, "orthophoto": ort, "kumamoto disaster response 2016-04-14": kumamoto};
 var overlays = {};
 L.control.layers(base_layers, overlays).addTo(map);
 var show_words = function() {
@@ -40,7 +43,7 @@ var show_words = function() {
 };
 map.on('load', show_words);
 map.on('moveend', show_words);
-map.setView([35.677218614543555, 139.74784255027774], 18);
+map.setView([32.79972520199237, 130.72868674993515], 18);
 map.addControl(L.control.centerCross({show: true, position: 'topright'}));
 
 </script>
